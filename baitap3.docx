@@ -1,0 +1,7 @@
+Ở mức phân tích, từ yêu cầu nghiệp vụ có thể suy ra cấu trúc bảng ORDERS như sau:
+
+Bảng cần các cột cơ bản gồm: OrderID (mã đơn), OrderDate (ngày đặt), TotalAmount (tổng tiền) và CustomerID (mã khách hàng). Trong đó, OrderID nên dùng kiểu INT và đặt PRIMARY KEY (thường đi kèm AUTO_INCREMENT) để định danh duy nhất mỗi đơn hàng. OrderDate nên dùng kiểu DATE hoặc DATETIME và cần ràng buộc DEFAULT CURRENT_DATE/CURRENT_TIMESTAMP để tự động lấy ngày hiện tại nếu không nhập. TotalAmount phải dùng kiểu DECIMAL (tránh sai số tiền tệ) và đặt NOT NULL để đảm bảo luôn có giá trị hợp lệ. CustomerID là khóa ngoại, kiểu INT, bắt buộc NOT NULL vì mỗi đơn hàng phải thuộc về một khách hàng.
+
+Về ràng buộc, ngoài PRIMARY KEY, bảng cần FOREIGN KEY (CustomerID) tham chiếu đến bảng CUSTOMERS để đảm bảo tính toàn vẹn dữ liệu (không thể tạo đơn cho khách hàng không tồn tại). Ngoài ra, nên có thêm CHECK (TotalAmount ≥ 0) để tránh dữ liệu sai.
+
+Điểm quan trọng về thứ tự thực thi: do có khóa ngoại, bảng CUSTOMERS phải được tạo trước, sau đó mới tạo bảng ORDERS, nếu không sẽ xảy ra lỗi ràng buộc. Tóm lại, bài toán yêu cầu vừa thiết kế đúng kiểu dữ liệu theo ngữ nghĩa, vừa đảm bảo đầy đủ constraint và đúng thứ tự tạo bảng để hệ thống hoạt động ổn định.
